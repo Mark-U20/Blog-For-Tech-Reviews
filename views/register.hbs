@@ -1,0 +1,28 @@
+<p>REGISTER</p>
+{{#if error}}
+  <p>{{error}}</p>
+{{else}}
+
+{{/if}}
+
+<div>
+  <form action="/auth/register" method="POST">
+    <label for="fname">Username</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      placeholder="Choose a username"
+    />
+
+    <label for="lname">password</label>
+    <input
+      type="text"
+      id="password"
+      name="password"
+      placeholder="Choose a secure password"
+    />
+
+    <input type="submit" value="Submit" />
+  </form>
+</div>

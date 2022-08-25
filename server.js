@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const exhbs = require("express-handlebars");
-const routes = require("./controllers");
+const {authRoutes, guestRoutes} = require("./controllers");
 const db = require("./config/connection");
 const PORT = process.env.PORT || 3077;
 
@@ -23,7 +23,7 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 
-app.engine("hbs", exhbs.engine({defaultLayout: "main", extname: "hbs"}));
+app.engine("hbs", exhbs.engine({defaultLayout: "main", extname: ".hbs"}));
 app.set("view engine", "hbs");
 
 
@@ -31,7 +31,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'assets')));
 
-app.use(routes);
+app.use(express.static(path.join(__dirname,'views')));
+app.use('/auth', authRoutes);
+app.use('/', guestRoutes);
+
 
 db.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log("Now listening to port 3077"));
